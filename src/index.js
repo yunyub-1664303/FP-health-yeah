@@ -92,7 +92,6 @@ function showPie() {
   function updateChart() {
     counterPie++;
     data = filter_data_country();
-
     filter_data_year(data, 1990 + counterPie).then(function(d) {
       d.map(function(row) {
         var dps = chart.options.data[0].dataPoints;
@@ -121,31 +120,29 @@ var counterChart = 1;
 
 function showGraph() {
   var data = filter_data_country();
-
-  var chart = 0;
-
+  console.log("SHOW " + window.countryCode);
   filter_data_year(data, 1990).then(function(d) {
     d.map(function(row) {
       chart = new CanvasJS.Chart("chartContainer", {
         title: {
-          text: "Disorders"
+          text: "Disorders in " + window.countryCode
         },
         axisY: {
           title: "Population (%)",
-          suffix: " %"
+          suffix: " %",
         },
         data: [{
-          type: "bar",	
+          type: "column",	
           yValueFormatString: "#.# %",
           indexLabel: "{y}",
           dataPoints: [
-            { label: "Schizophrenia", y: row["schizophrenia"], color: '#800026' },
-            { label: "Bipolar disorder", y: row["bipolar"], color: "#FF2500" },
-            { label: "Eating disorders", y: row["eating"], color: "#FF2500" },
-            { label: "Anxiety disorders", y: row["anxiety"], color: "#FF2500" },
-            { label: "Drug use disorders", y: row["drug"], color: "#FF2500" },
-            { label: "Depression", y: row["depression"], color: "#FF2500" },
-            { label: "Alcohol use disorders", y: row["alcohol"], color: "#FF2500" }
+            { label: "Schizophrenia", y: row["schizophrenia"] * 100, color: '#800026' },
+            { label: "Bipolar disorder", y: row["bipolar"] * 10, color: "#FF2500" },
+            { label: "Eating disorders", y: row["eating"] * 10, color: "#FF2500" },
+            { label: "Anxiety disorders", y: row["anxiety"] * 10, color: "#FF2500" },
+            { label: "Drug use disorders", y: row["drug"] * 10, color: "#FF2500" },
+            { label: "Depression", y: row["depression"] * 10, color: "#FF2500" },
+            { label: "Alcohol use disorders", y: row["alcohol"] * 10, color: "#FF2500" }
           ]
         }]
       });
@@ -160,13 +157,13 @@ function showGraph() {
       d.map(function(row) {
         var dps = chart.options.data[0].dataPoints;
 
-        dps[0] = { label: "Schizophrenia", y: row["schizophrenia"], color: "#FF2500" };
-        dps[1] = { label: "Bipolar disorder", y: row["bipolar"], color: "#FF2500" };
-        dps[2] = { label: "Eating disorders", y: row["eating"], color: "#FF2500" };
-        dps[3] = { label: "Anxiety disorders", y: row["anxiety"], color: "#FF2500" };
-        dps[4] = { label: "Drug use disorders", y: row["drug"], color: "#FF2500" };
-        dps[5] = { label: "Depression", y: row["depression"], color: "#FF2500" };
-        dps[6] = { label: "Alcohol use disorders", y: row["alcohol"], color: "#FF2500" };
+        dps[0] = { label: "Schizophrenia", y: row["schizophrenia"] * 10, color: "#FF2500" };
+        dps[1] = { label: "Bipolar disorder", y: row["bipolar"] * 10, color: "#FF2500" };
+        dps[2] = { label: "Eating disorders", y: row["eating"] * 10, color: "#FF2500" };
+        dps[3] = { label: "Anxiety disorders", y: row["anxiety"] * 10, color: "#FF2500" };
+        dps[4] = { label: "Drug use disorders", y: row["drug"] * 10, color: "#FF2500" };
+        dps[5] = { label: "Depression", y: row["depression"] * 10, color: "#FF2500" };
+        dps[6] = { label: "Alcohol use disorders", y: row["alcohol"] * 10, color: "#FF2500" };
 
         chart.options.data[0].dataPoints = dps; 
         chart.render();

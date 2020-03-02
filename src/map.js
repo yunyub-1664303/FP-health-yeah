@@ -30,7 +30,6 @@ center: bounds.getCenter()
 }).addTo(mymap);
 
 function style(feature) {
-window.countryCode = feature.properties.adm0_a3;
 return {
   // TODO Change This Color by data[feature.properties.adm0_a3]
   fillColor: '#ffeda0',
@@ -60,7 +59,9 @@ function resetHighlight(e) {
 }
 
 function zoomToFeature(e) {
-  mymap.fitBounds(e.target.getBounds());
+  var layer = e.target;
+  window.countryCode = layer.feature.properties.adm0_a3;
+  mymap.fitBounds(layer.getBounds());
   // TODO: display detailed data for the country here
   document.getElementById("chartContainer").style.display = "block";
   window.showGraph();
