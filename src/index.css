@@ -3,3 +3,69 @@ h1 {
     text-align: center;
 }
 
+#selection {
+    text-align: center;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 70%;
+    height: 15px;
+    border-radius: 5px;  
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+    
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%; 
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+
+select {
+    background-color: rgb(141, 104, 132);
+    color: #ffffff;
+}
+
+#yearD {
+    display: inline-block;
+    margin-bottom: 20px;
+    width: 60%;
+}
+
+#year {
+    padding-bottom: 10px;
+    margin: 0px;
+}
+
+#yearDisplay{
+    padding: 0px;
+}
+
+.sliderContainer {
+    width: 100%;
+}
+
+#graphContainer {
+    text-align: center;
+}
+
+#mapid {
+    display: inline-block;
+}

@@ -31,6 +31,11 @@ var all_data = d3.csv(csvFile, function(data) {
   };
 });
 
+
+var slider = document.getElementById("yearRange");
+var output = document.getElementById("yearDisplay");
+output.innerHTML = slider.value; // Display the default slider value
+
 // returns a Promise of filtered csv array from all_data
 function filter_data_country() {
   return all_data.then(function(d) {
@@ -50,19 +55,18 @@ function filter_data_year(data, year) {
   });
 }
 
-var counterPie = 1;
+// var counterPie = 1;
 
-function showPie() {
+/* function showPie(year) {
   var data = filter_data_country();
+  console.log("Pie");
 
-  var chart = 0;
-
-  filter_data_year(data, 1990).then(function(d) {
+  filter_data_year(data, year).then(function(d) {
+    console.log("Pie");
     d.map(function(row) {
-      chart = new CanvasJS.Chart("pieContainer", {
+      console.log("Pie");
+      var chartPie = new CanvasJS.Chart("pieContainer", {
         theme: "light2", // "light1", "light2", "dark1", "dark2"
-        exportEnabled: false,
-        animationEnabled: true,
         title: {
             text: "Share of Common Mental Health or Substance Use Disorder"
         },
@@ -76,20 +80,22 @@ function showPie() {
           indexLabel: "{label} - #percent%",
           percentFormatString: "#0.##",
           dataPoints: [
-            { label: "Schizophrenia", y: row["schizophrenia"], color: '#800026' },
-            { label: "Bipolar disorder", y: row["bipolar"], color: "#FF2500" },
-            { label: "Eating disorders", y: row["eating"], color: "#FF2500" },
-            { label: "Anxiety disorders", y: row["anxiety"], color: "#FF2500" },
-            { label: "Drug use disorders", y: row["drug"], color: "#FF2500" },
-            { label: "Depression", y: row["depression"], color: "#FF2500" },
-            { label: "Alcohol use disorders", y: row["alcohol"], color: "#FF2500" }
+            { 'label': "Schizophrenia", y: row["schizophrenia"]},
+            { 'label': "Bipolar disorder", y: row["bipolar"]},
+            { 'label': "Eating disorders", y: row["eating"]},
+            { 'label': "Anxiety disorders", y: row["anxiety"]},
+            { 'label': "Drug use disorders", y: row["drug"]},
+            { 'label': "Depression", y: row["depression"]},
+            { 'label': "Alcohol use disorders", y: row["alcohol"]}
           ]
         }]
       });
+      chartPie.render();
+      console.log("Pie");
     });
   });
 
-  function updateChart() {
+  /* function updateChart() {
     counterPie++;
     data = filter_data_country();
     filter_data_year(data, 1990 + counterPie).then(function(d) {
@@ -112,18 +118,20 @@ function showPie() {
 
   updateChart();
 
-  setInterval(function() {updateChart()}, 500);
+  setInterval(function() {updateChart()}, 500); */
 
-}
+// }
 
-var counterChart = 1;
+// var counterChart = 1;
 
-function showGraph() {
+
+function showGraph(year) {
   var data = filter_data_country();
   console.log("SHOW " + window.countryCode);
-  filter_data_year(data, 1990).then(function(d) {
+  filter_data_year(data, year).then(function(d) {
     d.map(function(row) {
-      chart = new CanvasJS.Chart("chartContainer", {
+      var chart = new CanvasJS.Chart("chartContainer", {
+        theme: "light4",
         title: {
           text: "Disorders in " + window.countryCode
         },
@@ -132,28 +140,29 @@ function showGraph() {
           suffix: " %",
         },
         data: [{
-          type: "column",	
-          yValueFormatString: "#.# %",
+          type: "bar",	
+          yValueFormatString: "#0.## %",
           indexLabel: "{y}",
           dataPoints: [
-            { label: "Schizophrenia", y: row["schizophrenia"] * 100, color: '#800026' },
-            { label: "Bipolar disorder", y: row["bipolar"] * 10, color: "#FF2500" },
-            { label: "Eating disorders", y: row["eating"] * 10, color: "#FF2500" },
-            { label: "Anxiety disorders", y: row["anxiety"] * 10, color: "#FF2500" },
-            { label: "Drug use disorders", y: row["drug"] * 10, color: "#FF2500" },
-            { label: "Depression", y: row["depression"] * 10, color: "#FF2500" },
-            { label: "Alcohol use disorders", y: row["alcohol"] * 10, color: "#FF2500" }
+            { label: "Schizophrenia", y: row["schizophrenia"] * 100},
+            { label: "Bipolar disorder", y: row["bipolar"] * 100},
+            { label: "Eating disorders", y: row["eating"] * 100},
+            { label: "Anxiety disorders", y: row["anxiety"] * 100},
+            { label: "Drug use disorders", y: row["drug"] * 100},
+            { label: "Depression", y: row["depression"] * 100},
+            { label: "Alcohol use disorders", y: row["alcohol"] * 100}
           ]
         }]
       });
+      chart.render();
     });
   });
 
-  function updateChart() {
+  /* function updateChart() {
     counterChart++;
     data = filter_data_country();
 
-    filter_data_year(data, 1990 + counterChart).then(function(d) {
+    filter_data_year(data, year).then(function(d) {
       d.map(function(row) {
         var dps = chart.options.data[0].dataPoints;
 
@@ -173,14 +182,16 @@ function showGraph() {
 
   updateChart();
 
-  setInterval(function() {updateChart()}, 500);
+  setInterval(function() {updateChart()}, 500);*/
 
 }
 
+// Update the current slider value and render a new plot
+slider.oninput = function() {
+  output.innerHTML = this.value;
+  showGraph(this.value);
+  // showPie(this.value);
+}
+
 window.showGraph = showGraph;
-window.showPie = showPie;
-
-
-
- 
-  
+// window.showPie = showPie;

@@ -16,9 +16,26 @@
   </head>
   <body>
     <h1>Health Yeah</h1>
-    <div id="mapid" style="height: 500px; width: 680px; margin: auto;"></div>
-    <div id="chartContainer" style="height: 300px; display: none;"></div>
-    <div id="pieContainer" style="height: 300px; width: 100%; display: none;"></div>
+    <p>Our map reflects mental health situations around the world! Try clicking on different countries!<br>
+      The charts reflect the percentages of each disorder among the total population in the current country in each year<br>
+      We can see that the percentages change slightly among different years<br>
+    </p>
+    <div id="selection" style="display: none;"> 
+      <div id="yearD">
+        <div class="sliderContainer">
+          <p id="year">Year: <span id="yearDisplay"></span></p>
+          1990
+          <input type="range" min="1990" max="2017" value="1990" class="slider" id="yearRange">
+          2017
+        </div>
+      </div>
+    </div>
+
+    <div id="graphContainer">
+      <div id="mapid" style="height: 500px; width: 680px; margin: auto;"></div>
+      <div id="chartContainer" style="height: 300px; display: none;"></div>
+      <!-- <div id="pieContainer" style="height: 300px; width: 100%; display: none;"></div> -->
+    </div>
     <script src="./index.js"></script>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script src="./map.js"></script>
