@@ -63,9 +63,32 @@ select {
 }
 
 #graphContainer {
-    text-align: center;
+    margin-bottom: -10px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #mapid {
+    height: 500px; 
+    width: 680px;
+    margin: auto;
+    display: inline-block
+}
+
+#chartContainer {
+    height: 300px;
     display: inline-block;
+    position: relative !important;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 52%;
+}
+
+canvas.canvasjs-chart-canvas {
+
+    position: relative !important;
+    float: right;
 }

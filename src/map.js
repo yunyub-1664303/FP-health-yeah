@@ -64,7 +64,7 @@ function zoomToFeature(e) {
   mymap.fitBounds(layer.getBounds());
   // TODO: display detailed data for the country here
   document.getElementById("chartContainer").style.display = "inline-block";
-  document.getElementById("selection").style.display = "inline-block";
+  document.getElementById("chartContainer").style.width = "52%";
   window.showGraph(1990);
 
   // document.getElementById("pieContainer").style.display = "block";
