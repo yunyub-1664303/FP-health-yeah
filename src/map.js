@@ -30,7 +30,7 @@ center: bounds.getCenter()
 }).addTo(mymap);
 
 function style(feature) {
-console.log(feature.properties.adm0_a3)
+window.countryCode = feature.properties.adm0_a3;
 return {
   // TODO Change This Color by data[feature.properties.adm0_a3]
   fillColor: '#ffeda0',
@@ -43,7 +43,6 @@ return {
 }
 function highlightFeature(e) {
   var layer = e.target;
-  console.log("YO");
   layer.setStyle({
       weight: 5,
       color: '#666',
@@ -57,14 +56,15 @@ function highlightFeature(e) {
 }
 
 function resetHighlight(e) {
-  console.log("BBBB");
   geojson.resetStyle(e.target);
 }
 
 function zoomToFeature(e) {
-  console.log("AAAAA");
   mymap.fitBounds(e.target.getBounds());
   // TODO: display detailed data for the country here
+  document.getElementById("chartContainer").style.display = "block";
+  console.log("Show");
+  window.showGraph();
 }
 
 function onEachFeature(feature, layer) {
