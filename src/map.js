@@ -63,8 +63,9 @@ function zoomToFeature(e) {
   mymap.fitBounds(e.target.getBounds());
   // TODO: display detailed data for the country here
   document.getElementById("chartContainer").style.display = "block";
-  console.log("Show");
   window.showGraph();
+  document.getElementById("pieContainer").style.display = "block";
+  window.showPie();
 }
 
 function onEachFeature(feature, layer) {
