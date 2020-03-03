@@ -21,13 +21,13 @@ var all_data = d3.csv(csvFile, function(data) {
       entity: data.Entity,
       code: data.Code,
       year: +data.Year,
-      schizophrenia: data["Schizophrenia (%)"],
-      bipolar: data["Bipolar disorder (%)"],
-      eating: data["Eating disorders (%)"],
-      anxiety: data["Anxiety disorders (%)"],
-      drug: data["Drug use disorders (%)"],
-      depression: data["Depression (%)"],
-      alcohol: data["Alcohol use disorders (%)"]
+      schizophrenia: +data["Schizophrenia (%)"],
+      bipolar: +data["Bipolar disorder (%)"],
+      eating: +data["Eating disorders (%)"],
+      anxiety: +data["Anxiety disorders (%)"],
+      drug: +data["Drug use disorders (%)"],
+      depression: +data["Depression (%)"],
+      alcohol: +data["Alcohol use disorders (%)"]
   };
 });
 
@@ -137,20 +137,20 @@ function showGraph(year) {
         },
         axisY: {
           title: "Population (%)",
-          suffix: " %",
+          suffix: " %"
         },
         data: [{
           type: "bar",	
-          yValueFormatString: "#0.## %",
+          yValueFormatString: "#0.##'%'",
           indexLabel: "{y}",
           dataPoints: [
-            { label: "Schizophrenia", y: row["schizophrenia"] * 100},
-            { label: "Bipolar disorder", y: row["bipolar"] * 100},
-            { label: "Eating disorders", y: row["eating"] * 100},
-            { label: "Anxiety disorders", y: row["anxiety"] * 100},
-            { label: "Drug use disorders", y: row["drug"] * 100},
-            { label: "Depression", y: row["depression"] * 100},
-            { label: "Alcohol use disorders", y: row["alcohol"] * 100}
+            { label: "Schizophrenia", y: row["schizophrenia"]},
+            { label: "Bipolar disorder", y: row["bipolar"]},
+            { label: "Eating disorders", y: row["eating"]},
+            { label: "Anxiety disorders", y: row["anxiety"]},
+            { label: "Drug use disorders", y: row["drug"]},
+            { label: "Depression", y: row["depression"]},
+            { label: "Alcohol use disorders", y: row["alcohol"]}
           ]
         }]
       });
