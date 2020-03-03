@@ -67,8 +67,8 @@ function zoomToFeature(e) {
   document.getElementById("chartContainer").style.width = "52%";
   window.showGraph(1990);
 
-  // document.getElementById("pieContainer").style.display = "block";
-  // window.showPie(1990);
+  document.getElementById("pieContainer").style.display = "inline-block";
+  window.showPie(1990);
 }
 
 function onEachFeature(feature, layer) {

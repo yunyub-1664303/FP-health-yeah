@@ -57,7 +57,7 @@ function filter_data_year(data, year) {
 
 // var counterPie = 1;
 
-/* function showPie(year) {
+function showPie(year) {
   var data = filter_data_country();
   console.log("Pie");
 
@@ -68,7 +68,7 @@ function filter_data_year(data, year) {
       var chartPie = new CanvasJS.Chart("pieContainer", {
         theme: "light2", // "light1", "light2", "dark1", "dark2"
         title: {
-            text: "Share of Common Mental Health or Substance Use Disorder"
+            text: "Disorders in " + window.countryCode
         },
         data: [{
           type: "pie",	
@@ -120,7 +120,7 @@ function filter_data_year(data, year) {
 
   setInterval(function() {updateChart()}, 500); */
 
-// }
+}
 
 // var counterChart = 1;
 
@@ -190,8 +190,8 @@ function showGraph(year) {
 slider.oninput = function() {
   output.innerHTML = this.value;
   showGraph(this.value);
-  // showPie(this.value);
+  showPie(this.value);
 }
 
 window.showGraph = showGraph;
-// window.showPie = showPie;
+window.showPie = showPie;
