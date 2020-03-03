@@ -6,7 +6,7 @@ document.getElementById("close").onclick = function() {
 }
 
 // You can require libraries
-const d3 = require('d3')
+const d3 = require('d3');
 
 
 // Prevalence of mental health disorders by disorder type
