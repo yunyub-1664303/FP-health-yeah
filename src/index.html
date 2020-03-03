@@ -34,8 +34,14 @@
     <div style="display:flex;justify-content:space-evenly;flex-direction:column;align-items:center;">
         <div id="graphContainer">
           <div id="mapid"></div>
-          <div id="chartContainer" style="display: none;"></div>
-          <div id="pieContainer" style="height: 300px; width: 100%; display: none;"></div>
+          <div id="container" style="display: none; border-radius: 10px;">
+            <div id="buttonContainer" style="text-align: right;">
+              <button type="button" id="close">x</button>
+            </div>
+            <div id="noData" style="display: none; text-align:center;"></div>
+            <div id="chartContainer" style="display: none;"></div>
+            <div id="pieContainer" style="display: none;"></div>
+          </div>
         </div>
     </div>
     

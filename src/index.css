@@ -5,6 +5,11 @@ h1 {
 
 #selection {
     text-align: center;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    background-color: #ffffff;
+    z-index: 20;
 }
 
 .slider {
@@ -47,6 +52,7 @@ select {
     display: inline-block;
     margin-bottom: 20px;
     width: 60%;
+    padding-top: 10px;
 }
 
 #year {
@@ -72,10 +78,20 @@ select {
 }
 
 #mapid {
-    height: 500px; 
+    height: 650px; 
     width: 680px;
     margin: auto;
-    display: inline-block
+    display: inline-block;
+    z-index: 10;
+}
+
+#container {
+    width: 50%;
+    background-color: beige;
+}
+
+#close {
+    margin: 10px;
 }
 
 #chartContainer {
@@ -84,8 +100,18 @@ select {
     position: relative !important;
     margin-left: 10px;
     margin-right: 10px;
-    width: 52%;
+    width: 90%;
 }
+
+#pieContainer {
+    height: 300px;
+    display: inline-block;
+    position: relative !important;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 90%;
+}
+
 
 canvas.canvasjs-chart-canvas {
     position: relative !important;

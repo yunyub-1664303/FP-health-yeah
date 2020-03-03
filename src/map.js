@@ -63,8 +63,12 @@ function zoomToFeature(e) {
   window.countryCode = layer.feature.properties.adm0_a3;
   mymap.fitBounds(layer.getBounds());
   // TODO: display detailed data for the country here
+  document.getElementById("noData").style.display = "none";
+
+  document.getElementById("mapid").style.width = "48%";
+  document.getElementById("container").style.display = "inline-block";
+
   document.getElementById("chartContainer").style.display = "inline-block";
-  document.getElementById("chartContainer").style.width = "52%";
   window.showGraph(1990);
 
   document.getElementById("pieContainer").style.display = "inline-block";

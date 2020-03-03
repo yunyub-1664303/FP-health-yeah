@@ -1,4 +1,9 @@
-
+document.getElementById("close").onclick = function() {
+  document.getElementById("mapid").style.width = "680px";
+  document.getElementById("container").style.display = "none";
+  document.getElementById("chartContainer").style.display = "none";
+  document.getElementById("pieContainer").style.display = "none";
+}
 
 // You can require libraries
 const d3 = require('d3')
@@ -66,16 +71,15 @@ function showPie(year) {
     d.map(function(row) {
       console.log("Pie");
       var chartPie = new CanvasJS.Chart("pieContainer", {
-        theme: "light2", // "light1", "light2", "dark1", "dark2"
+        theme: "light4", // "light1", "light2", "dark1", "dark2"
+        backgroundColor: "beige",
         title: {
-            text: "Disorders in " + window.countryCode
+            text: "Percentage of Population with Disorders in " + window.countryCode
         },
         data: [{
           type: "pie",	
           startAngle: 25,
           toolTipContent: "<b>{label}</b>: {y}%",
-          showInLegend: "true",
-          legendText: "{label}",
           indexLabelFontSize: 16,
           indexLabel: "{label} - #percent%",
           percentFormatString: "#0.##",
@@ -129,14 +133,22 @@ function showGraph(year) {
   var data = filter_data_country();
   console.log("SHOW " + window.countryCode);
   filter_data_year(data, year).then(function(d) {
+    if (d.length == 0) {
+      var element = document.getElementById("noData");
+      element.style.display = "block";
+      element.innerHTML += "<h3>No Data Found for " + window.countryCode + " </h3>";
+      document.getElementById("chartContainer").style.display = "none";
+      document.getElementById("pieContainer").style.display = "none";
+    }
     d.map(function(row) {
       var chart = new CanvasJS.Chart("chartContainer", {
         theme: "light4",
+        backgroundColor: "beige",
         title: {
-          text: "Disorders in " + window.countryCode
+          text: "Percentage of " + window.countryCode + " Total Population" 
         },
         axisY: {
-          title: "Population (%)",
+          title: "Country's Population (%)",
           suffix: " %"
         },
         data: [{
