@@ -44,7 +44,7 @@ function highlightFeature(e) {
   var layer = e.target;
   layer.setStyle({
       weight: 5,
-      color: '#666',
+      color: 'green',  // Change this color
       dashArray: '',
       fillOpacity: 0.7
   });
@@ -53,26 +53,36 @@ function highlightFeature(e) {
       layer.bringToFront();
   }
 }
+var clicked = false;
+var prevLayer;
 
 function resetHighlight(e) {
-  geojson.resetStyle(e.target);
+  if (e.target != prevLayer) {
+    geojson.resetStyle(e.target);
+  }
 }
 
+
 function zoomToFeature(e) {
+  if (prevLayer != undefined) {
+    geojson.resetStyle(prevLayer);
+  }
+  highlightFeature(e)
+  clicked = true;
   var layer = e.target;
+  prevLayer = layer;
   window.countryCode = layer.feature.properties.adm0_a3;
   mymap.fitBounds(layer.getBounds());
-  // TODO: display detailed data for the country here
   document.getElementById("noData").style.display = "none";
 
   document.getElementById("mapid").style.width = "48%";
   document.getElementById("container").style.display = "inline-block";
 
   document.getElementById("chartContainer").style.display = "inline-block";
-  window.showGraph(1990);
+  window.showGraph(window.sliderYear);
 
   document.getElementById("pieContainer").style.display = "inline-block";
-  window.showPie(1990);
+  window.showPie(window.sliderYear);
 }
 
 function onEachFeature(feature, layer) {

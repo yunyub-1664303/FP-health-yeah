@@ -40,7 +40,7 @@ var all_data = d3.csv(csvFile, function(data) {
 var slider = document.getElementById("yearRange");
 var output = document.getElementById("yearDisplay");
 output.innerHTML = slider.value; // Display the default slider value
-
+window.sliderYear = slider.value;
 // returns a Promise of filtered csv array from all_data
 function filter_data_country() {
   return all_data.then(function(d) {
@@ -64,18 +64,15 @@ function filter_data_year(data, year) {
 
 function showPie(year) {
   var data = filter_data_country();
-  console.log("Pie");
 
   filter_data_year(data, year).then(function(d) {
-    console.log("Pie");
     d.map(function(row) {
-      console.log("Pie");
       var chartPie = new CanvasJS.Chart("pieContainer", {
         theme: "light4", // "light1", "light2", "dark1", "dark2"
         backgroundColor: "beige",
         interactivityEnabled: true,
         title: {
-            text: "Percentage of Population with Disorders in " + window.countryCode,
+            text: "Percentage of Population with Disorders in " + row["entity"],
             fontFamily: "avenir",
             fontColor: "#003366",
         },
@@ -99,7 +96,6 @@ function showPie(year) {
         }]
       });
       chartPie.render();
-      console.log("Pie");
     });
   });
 
@@ -135,7 +131,6 @@ function showPie(year) {
 
 function showGraph(year) {
   var data = filter_data_country();
-  console.log("SHOW " + window.countryCode);
   filter_data_year(data, year).then(function(d) {
     if (d.length == 0) {
       var element = document.getElementById("noData");
@@ -149,7 +144,7 @@ function showGraph(year) {
         theme: "light4",
         backgroundColor: "beige",
         title: {
-          text: "Percentage of " + window.countryCode + " Total Population" ,
+          text: "Percentage of " + row["entity"] + " Total Population" ,
           fontFamily: "avenir",
           fontColor: "#003366",
         },
@@ -208,6 +203,7 @@ function showGraph(year) {
 // Update the current slider value and render a new plot
 slider.oninput = function() {
   output.innerHTML = this.value;
+  window.sliderYear = this.value;
   showGraph(this.value);
   showPie(this.value);
 }
