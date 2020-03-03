@@ -66,7 +66,8 @@ function showPie(year) {
     d.map(function(row) {
       console.log("Pie");
       var chartPie = new CanvasJS.Chart("pieContainer", {
-        theme: "light2", // "light1", "light2", "dark1", "dark2"
+        theme: "light4", // "light1", "light2", "dark1", "dark2"
+        interactivityEnabled: true,
         title: {
             text: "Disorders in " + window.countryCode
         },
