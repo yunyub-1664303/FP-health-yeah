@@ -73,8 +73,11 @@ function showPie(year) {
       var chartPie = new CanvasJS.Chart("pieContainer", {
         theme: "light4", // "light1", "light2", "dark1", "dark2"
         backgroundColor: "beige",
+        interactivityEnabled: true,
         title: {
-            text: "Percentage of Population with Disorders in " + window.countryCode
+            text: "Percentage of Population with Disorders in " + window.countryCode,
+            fontFamily: "avenir",
+            fontColor: "#003366",
         },
         data: [{
           type: "pie",	
@@ -83,6 +86,7 @@ function showPie(year) {
           indexLabelFontSize: 16,
           indexLabel: "{label} - #percent%",
           percentFormatString: "#0.##",
+          fontFamily: "avenir",
           dataPoints: [
             { 'label': "Schizophrenia", y: row["schizophrenia"]},
             { 'label': "Bipolar disorder", y: row["bipolar"]},
@@ -145,7 +149,9 @@ function showGraph(year) {
         theme: "light4",
         backgroundColor: "beige",
         title: {
-          text: "Percentage of " + window.countryCode + " Total Population" 
+          text: "Percentage of " + window.countryCode + " Total Population" ,
+          fontFamily: "avenir",
+          fontColor: "#003366",
         },
         axisY: {
           title: "Country's Population (%)",
@@ -155,6 +161,7 @@ function showGraph(year) {
           type: "bar",	
           yValueFormatString: "#0.##'%'",
           indexLabel: "{y}",
+          fontFamily: "avenir",
           dataPoints: [
             { label: "Schizophrenia", y: row["schizophrenia"]},
             { label: "Bipolar disorder", y: row["bipolar"]},
