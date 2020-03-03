@@ -44,7 +44,6 @@ function highlightFeature(e) {
   var layer = e.target;
   layer.setStyle({
       weight: 5,
-      color: '#666',
       dashArray: '',
       fillOpacity: 0.7
   });
@@ -69,10 +68,10 @@ function zoomToFeature(e) {
   document.getElementById("container").style.display = "inline-block";
 
   document.getElementById("chartContainer").style.display = "inline-block";
-  window.showGraph(1990);
+  window.showGraph(window.sliderYear);
 
   document.getElementById("pieContainer").style.display = "inline-block";
-  window.showPie(1990);
+  window.showPie(window.sliderYear);
 }
 
 function onEachFeature(feature, layer) {
