@@ -1,8 +1,11 @@
+
 h1 {
     width: 100%;
     text-align: center;
     font-family: avenir;
     color: #003366;
+    margin-top: 6.5%;
+    margin-left: 0.6%;
 }
 
 #selection {
