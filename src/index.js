@@ -3,6 +3,20 @@ document.getElementById("close").onclick = function() {
   document.getElementById("container").style.display = "none";
   document.getElementById("chartContainer").style.display = "none";
   document.getElementById("pieContainer").style.display = "none";
+  var schi = document.getElementById("schi-definition").classList;
+  schi.remove("beige");
+  var bp = document.getElementById("bp-definition").classList;
+  bp.remove("beige");
+  var eat = document.getElementById("eat-definition").classList;
+  eat.remove("beige");
+  var an = document.getElementById("an-definition").classList;
+  an.remove("beige");
+  var drug = document.getElementById("drug-definition").classList;
+  drug.remove("beige");
+  var dp = document.getElementById("dp-definition").classList;
+  dp.remove("beige");
+  var jiu = document.getElementById("jiu-definition").classList;
+  jiu.remove("beige");
 }
 
 // You can require libraries
@@ -10,7 +24,7 @@ const d3 = require('d3');
 
 
 // Prevalence of mental health disorders by disorder type
-const csvFile = require('../prevalence-by-mental-and-substance-use-disorder.csv');
+const csvFile = require('../total-data.csv');
 
 // You can load JSON files directly via require.
 // Note this does not add a network request, it adds
@@ -32,24 +46,29 @@ var all_data = d3.csv(csvFile, function(data) {
       anxiety: +data["Anxiety disorders (%)"],
       drug: +data["Drug use disorders (%)"],
       depression: +data["Depression (%)"],
-      alcohol: +data["Alcohol use disorders (%)"]
+      alcohol: +data["Alcohol use disorders (%)"],
+      total: +data["total (%)"]
   };
 });
-
+window.all_data = all_data
 
 var slider = document.getElementById("yearRange");
 var output = document.getElementById("yearDisplay");
+var disorder = document.getElementById("disorder");
+
 output.innerHTML = slider.value; // Display the default slider value
 window.sliderYear = slider.value;
+window.disorder_type = disorder.value;
 // returns a Promise of filtered csv array from all_data
-function filter_data_country() {
+function filter_data_country(c) {
   return all_data.then(function(d) {
       var d_filtered =  d.filter(function(row) {
-          return row["code"] == window.countryCode;
+          return row["code"] == c;
       });
       return d_filtered;
   });
 }
+window.filter_data_country = filter_data_country;
 
 function filter_data_year(data, year) {
   return data.then(function(d) {
@@ -59,11 +78,97 @@ function filter_data_year(data, year) {
     return d_filtered;
   });
 }
+window.filter_data_year = filter_data_year;
 
 // var counterPie = 1;
 
+function clickSchi() {
+  var myButtonClasses = document.getElementById("schi-definition").classList;
+  console.log("get id!");
+  if (myButtonClasses.contains("beige")) {
+    console.log("remove highlight");
+    myButtonClasses.remove("beige");
+  } else {
+    console.log("add highlight");
+    myButtonClasses.add("beige");
+  }
+}
+
+function clickBp() {
+  var myButtonClasses = document.getElementById("bp-definition").classList;
+  console.log("get id!");
+  if (myButtonClasses.contains("beige")) {
+    console.log("remove highlight");
+    myButtonClasses.remove("beige");
+  } else {
+    console.log("add highlight");
+    myButtonClasses.add("beige");
+  }
+}
+
+function clickEat() {
+  var myButtonClasses = document.getElementById("eat-definition").classList;
+  console.log("get id!");
+  if (myButtonClasses.contains("beige")) {
+    console.log("remove highlight");
+    myButtonClasses.remove("beige");
+  } else {
+    console.log("add highlight");
+    myButtonClasses.add("beige");
+  }
+}
+
+function clickAn() {
+  var myButtonClasses = document.getElementById("an-definition").classList;
+  console.log("get id!");
+  if (myButtonClasses.contains("beige")) {
+    console.log("remove highlight");
+    myButtonClasses.remove("beige");
+  } else {
+    console.log("add highlight");
+    myButtonClasses.add("beige");
+  }
+}
+
+function clickDrug() {
+  var myButtonClasses = document.getElementById("drug-definition").classList;
+  console.log("get id!");
+  if (myButtonClasses.contains("beige")) {
+    console.log("remove highlight");
+    myButtonClasses.remove("beige");
+  } else {
+    console.log("add highlight");
+    myButtonClasses.add("beige");
+  }
+}
+
+function clickDp() {
+  var myButtonClasses = document.getElementById("dp-definition").classList;
+  console.log("get id!");
+  if (myButtonClasses.contains("beige")) {
+    console.log("remove highlight");
+    myButtonClasses.remove("beige");
+  } else {
+    console.log("add highlight");
+    myButtonClasses.add("beige");
+  }
+}
+
+function clickJiu() {
+  var myButtonClasses = document.getElementById("jiu-definition").classList;
+  console.log("get id!");
+  if (myButtonClasses.contains("beige")) {
+    console.log("remove highlight");
+    myButtonClasses.remove("beige");
+  } else {
+    console.log("add highlight");
+    myButtonClasses.add("beige");
+  }
+}
+
+
 function showPie(year) {
-  var data = filter_data_country();
+  var data = filter_data_country(window.countryCode);
 
   filter_data_year(data, year).then(function(d) {
     d.map(function(row) {
@@ -79,19 +184,21 @@ function showPie(year) {
         data: [{
           type: "pie",	
           startAngle: 25,
-          toolTipContent: "<b>{label}</b>: {y}%",
+          toolTipContent: "<b>{label}</b>: Click to see highlighted definition below",
           indexLabelFontSize: 16,
           indexLabel: "{label} - #percent%",
           percentFormatString: "#0.##",
           fontFamily: "avenir",
+          explodeOnClick: false,
+          showInLegend: true,
           dataPoints: [
-            { 'label': "Schizophrenia", y: row["schizophrenia"]},
-            { 'label': "Bipolar disorder", y: row["bipolar"]},
-            { 'label': "Eating disorders", y: row["eating"]},
-            { 'label': "Anxiety disorders", y: row["anxiety"]},
-            { 'label': "Drug use disorders", y: row["drug"]},
-            { 'label': "Depression", y: row["depression"]},
-            { 'label': "Alcohol use disorders", y: row["alcohol"]}
+            { 'label': "Schizophrenia", y: row["schizophrenia"], name: "Schizophrenia", click: clickSchi},
+            { 'label': "Bipolar disorder", y: row["bipolar"], name: "Bipolar", click: clickBp},
+            { 'label': "Eating disorders", y: row["eating"], name: "Eating", click: clickEat},
+            { 'label': "Anxiety disorders", y: row["anxiety"], name: "Anxiety", click: clickAn},
+            { 'label': "Drug use disorders", y: row["drug"], name: "Drug use", click: clickDrug},
+            { 'label': "Depression", y: row["depression"], name: "Depression", click: clickDp},
+            { 'label': "Alcohol use disorders", y: row["alcohol"],name: "Alcohol use", click: clickJiu}
           ]
         }]
       });
@@ -130,12 +237,12 @@ function showPie(year) {
 
 
 function showGraph(year) {
-  var data = filter_data_country();
+  var data = filter_data_country(window.countryCode);
   filter_data_year(data, year).then(function(d) {
     if (d.length == 0) {
       var element = document.getElementById("noData");
       element.style.display = "block";
-      element.innerHTML += "<h3>No Data Found for " + window.countryCode + " </h3>";
+      element.innerHTML = "<h3>No Data Found for " + window.countryCode + " </h3>";
       document.getElementById("chartContainer").style.display = "none";
       document.getElementById("pieContainer").style.display = "none";
     }
@@ -150,21 +257,23 @@ function showGraph(year) {
         },
         axisY: {
           title: "Country's Population (%)",
-          suffix: " %"
+          suffix: " %",
+          maximum: 9.0,
         },
         data: [{
           type: "bar",	
           yValueFormatString: "#0.##'%'",
+          toolTipContent: "<b>{label}</b>: Click to see highlighted definition below",
           indexLabel: "{y}",
           fontFamily: "avenir",
           dataPoints: [
-            { label: "Schizophrenia", y: row["schizophrenia"]},
-            { label: "Bipolar disorder", y: row["bipolar"]},
-            { label: "Eating disorders", y: row["eating"]},
-            { label: "Anxiety disorders", y: row["anxiety"]},
-            { label: "Drug use disorders", y: row["drug"]},
-            { label: "Depression", y: row["depression"]},
-            { label: "Alcohol use disorders", y: row["alcohol"]}
+            { 'label': "Schizophrenia", y: row["schizophrenia"], click: clickSchi},
+            { 'label': "Bipolar disorder", y: row["bipolar"], click: clickBp},
+            { 'label': "Eating disorders", y: row["eating"], click: clickEat},
+            { 'label': "Anxiety disorders", y: row["anxiety"], click: clickAn},
+            { 'label': "Drug use disorders", y: row["drug"], click: clickDrug},
+            { 'label': "Depression", y: row["depression"], click: clickDp},
+            { 'label': "Alcohol use disorders", y: row["alcohol"], click: clickJiu}
           ]
         }]
       });
@@ -200,13 +309,19 @@ function showGraph(year) {
 
 }
 
+
 // Update the current slider value and render a new plot
 slider.oninput = function() {
   output.innerHTML = this.value;
   window.sliderYear = this.value;
   showGraph(this.value);
   showPie(this.value);
+  window.updateMap();
 }
-
+disorder.oninput = function() {
+  window.disorder_type = disorder.value;
+  window.updateMap();
+}
 window.showGraph = showGraph;
 window.showPie = showPie;
+

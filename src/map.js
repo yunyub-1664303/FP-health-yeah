@@ -1,7 +1,13 @@
 
-if (mymap != undefined) { mymap.remove(); }
+import "babel-polyfill";
+var country2total = new Map();
+var geojson;
+var mymap;
+var prev;
+var redo_map;
 
-var mymap = L.map('mapid', {
+if (mymap != undefined) { mymap.remove(); }
+mymap = L.map('mapid', {
   minZoom: 1.4
 }).setView([51.505, -0.09], 1.4);
 var shipLayer = L.layerGroup();
@@ -15,31 +21,71 @@ mymap.setMaxBounds(bounds);
 mymap.on('drag', function() {
 mymap.panInsideBounds(bounds, { animate: false });
 });
-
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW5naWVsZWV5eiIsImEiOiJjazY4c3MwOHAwOGc1M29xanNrOWdpcjgwIn0.kOc4Y88p-f10kvKPyKoKOA', {
 attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 maxZoom: 18,
 id: 'mapbox/light-v10',
 accessToken: 'your.mapbox.access.token',
 noWrap: true,
-bounds: [
-  [-90, -180],
-  [90, 180]
-],
+bounds: bounds,
 center: bounds.getCenter()
 }).addTo(mymap);
+geojson = L.geoJson(window.countriesData, {
+  style: style,
+  onEachFeature: onEachFeature
+})
+geojson.addTo(mymap);
+
+
+
+function drawAll() {
+  geojson.resetStyle();
+  if (prev != undefined) {
+    zoomToFeature(prev);
+  }
+}
+
+function getColor(d) {
+  return d > 17 ? '#800026' :
+         d > 15  ? '#BD0026' :
+         d > 13  ? '#E31A1C' :
+         d > 11  ? '#FC4E2A' :
+         d > 9   ? '#FD8D3C' :
+         d > 7   ? '#FEB24C' :
+                  '#FFEDA0';                   
+}
+
+
+async function updateMap() {
+  country2total.clear();
+  await updateCountry2total();
+  drawAll();
+}
+
+window.updateMap = updateMap;
+
+async function updateCountry2total() {
+  await filter_data_year(window.all_data, window.sliderYear).then(function(d) {
+    d.map(function(row) {
+      var total = row[window.disorder_type];
+      var country = row["code"];
+      country2total[country] = total;
+    });
+  });
+}
 
 function style(feature) {
-return {
-  // TODO Change This Color by data[feature.properties.adm0_a3]
-  fillColor: '#ffeda0',
-  // fillColor: getColor(feature.properties.measlesrate),
-  weight: 2,
-  opacity: 1,
-  color: 'white',
-  fillOpacity: 0.7
-};
+  return {
+    // TODO Change This Color by data[feature.properties.adm0_a3]
+    // fillColor: '#ffeda0',
+    fillColor: getColor(country2total[feature.properties.adm0_a3]),
+    weight: 2,
+    opacity: 1,
+    color: 'white',
+    fillOpacity: 0.7
+  };
 }
+
 function highlightFeature(e) {
   var layer = e.target;
   layer.setStyle({
@@ -48,29 +94,30 @@ function highlightFeature(e) {
       dashArray: '',
       fillOpacity: 0.7
   });
-
   if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
       layer.bringToFront();
   }
 }
 var clicked = false;
-var prevLayer;
 
 function resetHighlight(e) {
-  if (e.target != prevLayer) {
+  if (e != prev) {
     geojson.resetStyle(e.target);
+  }
+  if (prev != undefined) {
+    highlightFeature(prev)
   }
 }
 
 
 function zoomToFeature(e) {
-  if (prevLayer != undefined) {
-    geojson.resetStyle(prevLayer);
+  if (prev != undefined && !redo_map) {
+    geojson.resetStyle(prev.target);
   }
   highlightFeature(e)
   clicked = true;
   var layer = e.target;
-  prevLayer = layer;
+  prev = e;
   window.countryCode = layer.feature.properties.adm0_a3;
   mymap.fitBounds(layer.getBounds());
   document.getElementById("noData").style.display = "none";
@@ -93,10 +140,24 @@ function onEachFeature(feature, layer) {
   });
 }
 
+var legend = L.control({position: 'bottomright'});
 
-var geojson;
+legend.onAdd = function (mymap) {
 
-geojson = L.geoJson(window.countriesData, {
-  style: style,
-  onEachFeature: onEachFeature
-}).addTo(mymap)
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = [0, 7, 9, 11, 13, 15, 17],
+        labels = [];
+
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+            grades[i] + "%" + (grades[i + 1] ? '&ndash;' + grades[i + 1] + "%" + '<br>' : '+');
+    }
+
+    return div;
+};
+
+legend.addTo(mymap);
+
+updateMap();
